@@ -1,47 +1,36 @@
-
-
 # Planning & Evaluation Log
 
-### **Approach & Methodology**
-
-My initial strategy for evaluating the targets is to start with the simplest, most lightweight approach before escalating to heavier tools.
-
+### Approach & Methodology
+My initial strategy for evaluating the targets is to start with the simplest, most lightweight approach before escalating to heavier tools. 
 1. Send a plain HTTP GET request (using `curl` or a basic HTTP client) with a standard browser `User-Agent`.
 2. Inspect the raw HTML response to see if the target data (car make, model, price, etc.) is server-rendered or if it relies on client-side JavaScript to load.
 3. Look for hidden data structures: Next.js `__NEXT_DATA__` blobs, inline `<script>` tags, or SEO `JSON-LD` schema objects, which are much cleaner to parse than raw HTML nodes.
-4. If the HTML is an empty JavaScript shell, check the browser's Network tab for the underlying data API.
+4. If the HTML is an empty JavaScript shell, check the browser's Network tab for the underlying data API. 
 
 I will only use a headless browser (like Puppeteer) as a last resort due to overhead and speed.
 
----
+### Site Investigations
 
-### **Site Investigations**
+#### 1. Sylndr (https://sylndr.com)
+*   **What I tried:** Sent a simple GET request to inspect the initial page load.
+*   **What I found:** The site does return organized, structured JSON data embedded directly inside a `<script>` tag.
+*   **Why I discarded it:** Encountered severe language and encoding issues. The Arabic text within the JSON blob was mangled/unreadable, making data extraction messy and unreliable without adding complex decoding logic. 
 
-#### **1. Sylndr** ([https://sylndr.com](https://sylndr.com))
+#### 2. Malek Cars (https://malekcars.com/used-cars)
+*   **What I tried:** Simulated a request using `curl` with a Chrome User-Agent. Received a 200 OK and about 206KB of HTML. No anti-bot blocking detected.
+*   **What I found:** The site is built with Laravel and Livewire. A text search for prices initially gave hits, but on closer inspection, these were just empty form placeholders and navigation links. The actual car listing grids were completely missing from the server HTML.
+*   **Why I discarded it:** The actual car records are fetched via Livewire AJAX calls after the page loads. Replicating Livewire's per-request checksums is incredibly fragile, meaning this site would require a headless browser to render the Javascript. Discarded as too complex for a simple scraper.
 
-* **What I tried:** Sent a simple GET request to inspect the initial page load.
-* **What I found:** The site does return organized, structured JSON data embedded directly inside a `<script>` tag, which initially looked very promising!
-* **Why I discarded it:** Encountered severe language and encoding issues. The Arabic text within the JSON blob was mangled/unreadable, making data extraction messy and unreliable without adding complex decoding logic.
+#### 3. Fabrika Egypt (https://fabrikaegypt.com/)
+*   **What I tried:** Fetched the homepage and the `?is_featured=true` listings page.
+*   **What I found:** The site uses Next.js. I checked the `__NEXT_DATA__` script tag expecting to find the car listings, but it only contained a UI translation dictionary. The HTML divs where cars should be were totally empty.
+*   **The API Discovery:** Digging into the Network tab, I found the real data source: an open GET API at `https://fabrikaegypt.com:9999/api/car/`. Hitting this API directly returned a beautifully structured JSON array with every required field and absolutely zero anti-bot protection.
+*   **Why I discarded it:** I tested the API's filtering and found that the site's *entire* inventory is only 18 cars. Since this is a single dealership network and not a large marketplace, there is no real pagination to handle. The assignment strictly requires demonstrating pagination, so I had to keep looking.
 
-#### **2. Malek Cars** ([https://malekcars.com/used-cars](https://malekcars.com/used-cars))
-
-* **What I tried:** Simulated a request using `curl` with a Chrome User-Agent. Received a 200 OK and about 206KB of HTML. No anti-bot blocking detected.
-* **What I found:** The site is built with Laravel and Livewire. A text search for prices initially gave hits, but on closer inspection, these were just empty form placeholders and navigation links. The actual car listing grids were completely missing from the server HTML.
-* **Why I discarded it:** The actual car records are fetched via Livewire AJAX calls after the page loads. Replicating Livewire's per-request checksums is incredibly fragile, meaning this site would require a headless browser to render the Javascript. Discarded as too complex for a simple scraper.
-
-#### **3. Fabrika Egypt** ([https://fabrikaegypt.com/](https://fabrikaegypt.com/))
-
-* **What I tried:** Fetched the homepage and the `?is_featured=true` listings page.
-* **What I found:** The site uses Next.js. I checked the `__NEXT_DATA__` script tag expecting to find the car listings, but it only contained a UI translation dictionary (e.g., mapping "Price" to "رعسلا"). The HTML divs where cars should be were totally empty.
-* **The API Discovery:** Digging into the Network tab, I found the real data source: an open GET API at `[https://fabrikaegypt.com:9999/api/car/](https://fabrikaegypt.com:9999/api/car/)`. Hitting this API directly returned a beautifully structured JSON array with every required field (make, model, year, km, price) and absolutely zero anti-bot protection.
-* **Why I discarded it:** I tested the API's filtering and found that the site's *entire* inventory is only 18 cars. Since this is a single dealership network and not a large marketplace, there is no real pagination to handle. The assignment strictly requires demonstrating pagination, so I had to keep looking. Still, a fantastic fallback option!
-
-#### **4. ContactCars** ([https://www.contactcars.com/en/used-cars](https://www.contactcars.com/en/used-cars)) - **[SELECTED TARGET]**
-
-* **What I tried:** Fetched the main used cars page with `curl`. Received a massive ~937KB HTML file.
-* **What I found:** Jackpot :-D While scanning for prices, I discovered that ContactCars injects perfectly structured Schema.org `JSON-LD` blocks directly into the HTML for SEO purposes. There are exactly 25 `@type":"Vehicle"` blocks per page, and each block contains clean, key-value pairs for price, brand, model, year, and mileage.
-* **Pagination Check:** I tested appending `?page=2` to the URL. The server natively returned the second page of HTML containing the next 25 unique car JSON-LD blocks. No AJAX or client-side rendering required!
-* **Why I chose it:**
-1. **Zero anti-bot friction:** A simple User-Agent header gets you the full HTML.
-2. **Robust data structure:** Parsing JSON-LD is infinitely more reliable than scraping CSS classes (like `<div class="price">`) which break when a site updates its UI.
-3. **Real pagination:** It's a massive marketplace, allowing the scraper to easily page through thousands of listings using a simple `?page=X` URL parameter.
+#### 4. ContactCars (https://www.contactcars.com/en/used-cars) - [SELECTED TARGET]
+*   **What I tried:** Fetched the main used cars page with `curl`.
+*   **What I found:** While scanning for prices, I discovered that ContactCars injects perfectly structured Schema.org `JSON-LD` blocks directly into the HTML for SEO purposes. However, upon testing pagination (`?page=2`), I realized the site is a Next.js Single Page Application (SPA). The server just handed me the cached HTML for page 1 again. The actual data is loaded dynamically via a hidden backend API (`api.contactcars.com`).
+*   **Why I chose it:** 
+    1. **Massive inventory:** It's a massive marketplace, allowing the scraper to easily page through thousands of listings to truly demonstrate pagination.
+    2. **Robust data structure:** The API returns clean JSON data with explicit keys for make, model, year, price, and mileage.
+    3. **Challenge:** It presented a great opportunity to demonstrate a hybrid scraping strategy to bypass the Next.js cache trap and API security headers.

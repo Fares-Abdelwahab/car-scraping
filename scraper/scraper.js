@@ -29,6 +29,12 @@ class CarDataPipeline {
             )
         `);
 
+        // Seed in-memory dedup with everything already saved, so resumed/rerun
+        // scrapes don't re-append cars the DB already has into the CSV.
+        for (const row of this.db.prepare('SELECT url FROM used_cars').all()) {
+            this.seenUrls.add(row.url);
+        }
+
         this.csvWriter = createObjectCsvWriter({
             path: this.csvPath,
             header: [
@@ -45,7 +51,7 @@ class CarDataPipeline {
         });
     }
 
-    saveRecords(cars) {
+    async saveRecords(cars) {
         if (!cars || cars.length === 0) return;
 
         // Filter out duplicates before saving
@@ -73,8 +79,11 @@ class CarDataPipeline {
 
         insertMany(uniqueCars);
 
-        this.csvWriter.writeRecords(uniqueCars)
-            .catch(err => console.error(`[-] CSV Error: ${err.message}`));
+        try {
+            await this.csvWriter.writeRecords(uniqueCars);
+        } catch (err) {
+            console.error(`[-] CSV Error: ${err.message}`);
+        }
     }
 
     close() {
@@ -94,16 +103,17 @@ class ContactCarsScraper {
         for (const item of items) {
             const make = item.make?.nameEn || 'Unknown';
             const model = item.model?.nameEn || 'Unknown';
-            
+
             if (make === 'Unknown' && model === 'Unknown') continue;
+            if (!item.id) continue;
 
             cleaned.push({
                 make: make,
                 model: model,
                 year: item.year || null,
-                price: item.price || null,
+                price: item.price ?? null,
                 // Here is the magic fix!
-                mileage: item.kilometers || 0,
+                mileage: item.kilometers ?? 0,
                 currency: 'EGP',
                 url: `https://www.contactcars.com/en/used-cars/${make.toLowerCase().replace(/ /g, '_')}-${model.toLowerCase().replace(/ /g, '_')}/${item.id}`,
                 scraped_at: new Date().toISOString()
@@ -164,8 +174,8 @@ class ContactCarsScraper {
 
                 const cleanedCars = this.normalizeCarSchema(items);
                 console.log(`[+] Captured ${cleanedCars.length} cars from API. Saving to database...`);
-                
-                this.pipeline.saveRecords(cleanedCars);
+
+                await this.pipeline.saveRecords(cleanedCars);
 
                 // The API politely tells us when we are done!
                 hasMorePages = data.hasNextPage;
@@ -180,7 +190,7 @@ class ContactCarsScraper {
                 break;
             }
             
-            // Random delay between 2000ms (2s) and 5000ms (5s)
+            // Shortened from 2-5s: that jitter was triggering server errors around page 76
             const sleepMs = Math.random() * 1000;
             console.log(`[*] Sleeping for ${(sleepMs / 1000)} seconds to evade bot detection...`);
             await new Promise(r => setTimeout(r, sleepMs));
@@ -191,13 +201,16 @@ class ContactCarsScraper {
 }
 
 async function main() {
+    // Resume a crashed/interrupted run with: node scraper.js <page>
+    const startPage = parseInt(process.argv[2], 10) || 1;
+
     const pipeline = new CarDataPipeline('cars.db', 'cars.csv');
     pipeline.init();
 
     const scraper = new ContactCarsScraper(pipeline);
-    
-    // Just pass the starting page! The while loop will handle the rest.
-    await scraper.run(1); 
+
+    console.log(`[*] Starting scrape from page ${startPage}...`);
+    await scraper.run(startPage);
 
     pipeline.close();
     console.log('\n[+] Scraping run complete!');

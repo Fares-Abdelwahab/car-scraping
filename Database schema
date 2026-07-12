@@ -1,0 +1,42 @@
+TABLE Cars
+[car_id | model_id | color_id | body_shape_id | transmission_id | fuel_type_id | engine_capacity_id | location_id | dealer_id | year | price | mileage | lowest_monthly_installment | is_downpayment | downpayment_amount | contact_downpayment_amount | scraped_at  |  inWarranty | imported | factoryPaint | almostNew | crashes | firstOwner | agencyMaintenance | newTires | newBrakePads | recentMaintenance | sellerOwnedLicense | protectionFilm | nanoCeramic | forExchange | taxi | forDisabled | installmentsContinued | url | engine_description]
+
+Models.make_id -> Makes.make_id
+TABLE Makes
+[make_id | make_name]
+
+Cars.model_id -> Models.model_id
+TABLE Models
+[model_id | make_id | model_name]
+
+Cars.color_id -> Colors.color_id
+TABLE Colors
+[color_id | color]
+
+Cars.body_shape_id -> Shape.body_shape_id
+TABLE Shape
+[body_shape_id | body_shape]
+
+Cars.transmission_id -> Transmission.transmission_id
+TABLE Transmission
+[transmission_id | transmission]
+
+Cars.fuel_type_id -> Fuel.fuel_type_id
+TABLE Fuel
+[fuel_type_id | fuel_type]
+
+Cars.engine_capacity_id -> EngineCap.engine_capacity_id
+TABLE EngineCap
+[engine_capacity_id | engine_capacity]
+
+Location.location_city_id -> Location_city.location_city_id
+TABLE Location_city
+[location_city_id | city]
+
+Cars.location_id -> Location.location_id
+TABLE Location
+[location_id | area | location_city_id ]
+
+Cars.dealer_id -> Dealer.dealer_id
+TABLE Dealer
+[dealer_id | name | phone | type    ]

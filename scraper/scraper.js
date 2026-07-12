@@ -100,12 +100,30 @@ class ContactCarsScraper {
     normalizeCarSchema(items) {
         const cleaned = [];
 
+        const FIELDS = ['bodyShapeId', 'transmissionId', 'fuelTypeId', 'colorId', 'governorateId'];
+
+        const firstSeen = {};
+        for (const field of FIELDS) {
+            firstSeen[field] = {};   // one empty map per field
+        }
+
         for (const item of items) {
             const make = item.make?.nameEn || 'Unknown';
             const model = item.model?.nameEn || 'Unknown';
 
             if (make === 'Unknown' && model === 'Unknown') continue;
             if (!item.id) continue;
+
+            item.governorateId = item.location.governorateId
+
+
+            for (const field of FIELDS) {
+                const code = item[field];
+                if (!(code in firstSeen[field])) {
+                    firstSeen[field][code] = { id: item.id, make: item.make.nameEn, model: item.model.nameEn };
+                }
+            }
+
 
             cleaned.push({
                 make: make,
@@ -126,7 +144,7 @@ class ContactCarsScraper {
         console.log('[*] Booting up headless browser to steal session tokens...');
         const browser = await puppeteer.launch({ headless: "new" });
         const page = await browser.newPage();
-        
+
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36');
 
         let stolenHeaders = {};
@@ -140,7 +158,7 @@ class ContactCarsScraper {
             await page.goto(this.baseUrl, { waitUntil: 'domcontentloaded' });
             const interceptedReq = await requestPromise;
             stolenHeaders = interceptedReq.headers();
-            
+
             console.log('[+] Successfully extracted security headers!');
         } catch (err) {
             console.error('[-] Failed to steal headers:', err.message);
@@ -152,7 +170,7 @@ class ContactCarsScraper {
         console.log('[*] Browser closed. Switching to high-speed Axios API requests...');
 
         const cleanHeaders = { ...stolenHeaders };
-        delete cleanHeaders['accept-encoding']; 
+        delete cleanHeaders['accept-encoding'];
         delete cleanHeaders['content-length'];
 
         let currentPage = startPage;
@@ -161,12 +179,12 @@ class ContactCarsScraper {
         while (hasMorePages) {
             console.log(`\n[*] Fetching Page ${currentPage} via API...`);
             const apiUrl = `https://api.contactcars.com/gateway/vehicles/classifiedAdsSearch/search?carStatus=3&pageIndex=${currentPage}&sortBy=&sortOrder=false&pageSize=26`;
-            
+
             try {
                 const response = await axios.get(apiUrl, { headers: cleanHeaders });
                 const data = response.data.result || {};
                 const items = data.items || [];
-                
+
                 if (items.length === 0) {
                     console.log(`[!] No items found on page ${currentPage}. Reached the end of the inventory!`);
                     break;
@@ -189,7 +207,7 @@ class ContactCarsScraper {
                 // If we get blocked (e.g. 403 or 429), break the loop so we don't spam them
                 break;
             }
-            
+
             // Shortened from 2-5s: that jitter was triggering server errors around page 76
             const sleepMs = Math.random() * 1000;
             console.log(`[*] Sleeping for ${(sleepMs / 1000)} seconds to evade bot detection...`);

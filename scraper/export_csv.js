@@ -11,7 +11,13 @@ function csvEscape(value) {
 }
 
 async function main() {
-    const result = await pool.query('SELECT * FROM cars_report');
+    const result = await pool.query(
+        `SELECT * FROM cars_report
+         WHERE mileage IS NOT NULL AND mileage <= 575000
+           AND crashes IS NOT NULL
+           AND year <= 2026
+           AND price <= 10000000`
+    );
     const rows = result.rows;
 
     if (rows.length === 0) {

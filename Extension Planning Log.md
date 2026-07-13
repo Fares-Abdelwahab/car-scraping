@@ -50,14 +50,25 @@ Designing the normalized schema surfaced a few classic mistakes worth rememberin
 
 ## Database engine
 
-**PostgreSQL** — the scraper currently uses SQLite, but chose Postgres for the extensions specifically to learn it; it's also the more natural fit for whatever BI tool ends up powering Extension C.
+**PostgreSQL, hosted on Supabase** — the scraper currently uses SQLite, but chose Postgres for the extensions specifically to learn it. Supabase is used purely as a free hosted Postgres instance (no local install/upkeep, reachable for later demos) — deliberately *not* using its auto-generated REST API, since Extension B's evaluation criteria is specifically about hand-designing routes, status codes, and validation. A custom Flask/Express-style API still sits in front of the same database.
+
+## BI tool
+
+**Power BI** — the assignment explicitly allows it as a Superset alternative. Chosen over Superset for speed (drag-and-drop, no Docker setup) given where things are starting from on the frontend/BI side.
 
 ## Status snapshot
 
 - [x] Field discovery + decoding technique validated
 - [x] Normalized schema designed and reviewed
-- [x] DB engine chosen (PostgreSQL)
-- [ ] Write real `CREATE TABLE` SQL
-- [ ] Build the lookup-table discovery script + rewritten scrape/load pipeline
-- [ ] Extension B: REST API, frontend, run-locally docs
-- [ ] Extension C: BI dashboard, charts, insights, reproduce docs
+- [x] DB engine chosen (PostgreSQL via Supabase)
+- [x] BI tool chosen (Power BI)
+- [x] Write real `CREATE TABLE` SQL (all 10 tables live in Supabase Postgres)
+- [x] Row Level Security enabled on all tables (deny-by-default; app connects via the DB password, which bypasses RLS anyway)
+- [x] Lookup-table discovery script (`scraper/build_lookups.js`) — scans all listings, decodes every coded field via detail pages, outputs `scraper/lookups.json`. Hit and worked through: Cloudflare blocking rapid detail-page navigation (fixed with `puppeteer-extra` + stealth plugin), and a location-parsing bug from multiple "posted X ago" timestamps on one page. 4 of ~30 governorate entries are missing `city` — genuinely incomplete source listings, not a script bug; left as known gaps rather than over-investing further.
+- [x] Load raw scrape + `lookups.json` into the actual Postgres schema — 6,733 cars loaded (`scraper/load_cars.js`), lookup tables seeded (`scraper/seed_lookups.js`), verified end-to-end with a join query across every table. `location.area` intentionally left NULL (see scope note above); a few schema constraints (NOT NULL / UNIQUE) had to be relaxed on `shape`, `enginecap`, `location_city`, and `location` to allow genuinely-unknown decoded values.
+- [ ] Extension B: deprioritized due to time constraints, may not be attempted
+- [x] Postgres connected via a `cars_report` view (joins all 10 tables into one flat, analysis-ready table) — normalized schema stays intact for the real app, denormalized view is purely for reporting.
+- [x] Power BI's native Postgres connector hit an unresolved SSL certificate error (Npgsql-vs-Supabase cert chain, no separately-installed Npgsql found on this machine to explain it) — worked around by exporting `cars_report` to `data/cars_report.csv` (`scraper/export_csv.js`, uses Node's `pg` driver directly, unaffected by the Npgsql issue) and importing that into Power BI as a static file. Documented as a known limitation rather than further debugging, given time constraints. CSV is committed to the repo so the dashboard is reproducible without DB credentials.
+- [ ] Build 4 charts (price distribution, mileage vs price, avg price by year, crashed vs not) into one dashboard page. Missing data (`NULL` color/body_shape/city) filtered out per-visual; price outliers kept as-is (real luxury segment, noted in insights).
+- [ ] Write 2-3 real insights from the finished dashboard
+- [ ] Reproduce-the-dashboard instructions

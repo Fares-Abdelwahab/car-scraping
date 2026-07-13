@@ -1,0 +1,619 @@
+{
+  "bodyShapeId": {
+    "1": {
+      "id": "e29e7a27f4f2",
+      "make": "Mercedes",
+      "model": "V300"
+    },
+    "2": {
+      "id": "487c95ddddee",
+      "make": "Peugeot",
+      "model": "207"
+    },
+    "3": {
+      "id": "4c70343a82dc",
+      "make": "Mercedes",
+      "model": "C180"
+    },
+    "4": {
+      "id": "39cd28257ba4",
+      "make": "Suzuki",
+      "model": "Ertiga"
+    },
+    "5": {
+      "id": "b4bb0b8a9202",
+      "make": "Fiat",
+      "model": "Tipo"
+    },
+    "6": {
+      "id": "bb7d009eaa2e",
+      "make": "Mini",
+      "model": "Cooper"
+    },
+    "7": {
+      "id": "33b5a0234979",
+      "make": "Jeep",
+      "model": "Grand Cherokee"
+    },
+    "8": {
+      "id": "491e855b9db7",
+      "make": "Chevrolet",
+      "model": "Captiva"
+    },
+    "11": {
+      "id": "c06856adde65",
+      "make": "Subaru",
+      "model": "XV"
+    },
+    "12": {
+      "id": "44ec874bcbc7",
+      "make": "Mitsubishi",
+      "model": "Xpander"
+    },
+    "13": {
+      "id": "ce7ca9b6cd04",
+      "make": "Dodge",
+      "model": "Ram"
+    },
+    "null": {
+      "id": "3f3edb186e4f",
+      "make": "Jeep",
+      "model": "Renegade"
+    }
+  },
+  "transmissionId": {
+    "1": {
+      "id": "487c95ddddee",
+      "make": "Peugeot",
+      "model": "207"
+    },
+    "2": {
+      "id": "4c70343a82dc",
+      "make": "Mercedes",
+      "model": "C180"
+    },
+    "4": {
+      "id": "331fc8b4fd74",
+      "make": "Mercedes",
+      "model": "S500"
+    },
+    "5": {
+      "id": "491e855b9db7",
+      "make": "Chevrolet",
+      "model": "Captiva"
+    },
+    "7": {
+      "id": "c1531e02016d",
+      "make": "Nissan",
+      "model": "Qashqai"
+    }
+  },
+  "fuelTypeId": {
+    "1": {
+      "id": "4c70343a82dc",
+      "make": "Mercedes",
+      "model": "C180"
+    },
+    "2": {
+      "id": "e3eb2bb776ab",
+      "make": "Renault",
+      "model": "Sandero Stepway"
+    },
+    "3": {
+      "id": "6319695d5baf",
+      "make": "Audi",
+      "model": "Q7"
+    },
+    "4": {
+      "id": "31d32ca65bc0",
+      "make": "Hyundai",
+      "model": "I30"
+    },
+    "5": {
+      "id": "0c7cd678e7fa",
+      "make": "Mercedes",
+      "model": "EQS 450+"
+    }
+  },
+  "colorId": {
+    "1": {
+      "id": "b7585d2873f8",
+      "make": "Toyota",
+      "model": "Corolla"
+    },
+    "2": {
+      "id": "491e855b9db7",
+      "make": "Chevrolet",
+      "model": "Captiva"
+    },
+    "3": {
+      "id": "e84b513fd463",
+      "make": "Peugeot",
+      "model": "5008"
+    },
+    "4": {
+      "id": "ad88ee060c7d",
+      "make": "Opel",
+      "model": "Astra"
+    },
+    "5": {
+      "id": "e8d30a8d2fba",
+      "make": "Nissan",
+      "model": "Sunny"
+    },
+    "6": {
+      "id": "7c02ba0f6bda",
+      "make": "Hyundai",
+      "model": "Tucson"
+    },
+    "7": {
+      "id": "487c95ddddee",
+      "make": "Peugeot",
+      "model": "207"
+    },
+    "8": {
+      "id": "1878dfafa769",
+      "make": "Seat",
+      "model": "ATECA"
+    },
+    "9": {
+      "id": "25f03c3e3e45",
+      "make": "Peugeot",
+      "model": "208"
+    },
+    "10": {
+      "id": "0d4926fb29d8",
+      "make": "Kia",
+      "model": "Sephia"
+    },
+    "11": {
+      "id": "2bfb14333c0d",
+      "make": "MG",
+      "model": "6"
+    },
+    "12": {
+      "id": "bb7d009eaa2e",
+      "make": "Mini",
+      "model": "Cooper"
+    },
+    "13": {
+      "id": "4c70343a82dc",
+      "make": "Mercedes",
+      "model": "C180"
+    },
+    "14": {
+      "id": "550dc3ddf8c0",
+      "make": "Jeep",
+      "model": "Renegade"
+    },
+    "15": {
+      "id": "e7fb0ba24ff2",
+      "make": "Peugeot",
+      "model": "308"
+    },
+    "16": {
+      "id": "b245f2d98bb2",
+      "make": "Nissan",
+      "model": "Sunny"
+    },
+    "17": {
+      "id": "31d32ca65bc0",
+      "make": "Hyundai",
+      "model": "I30"
+    },
+    "18": {
+      "id": "6f6833458ce6",
+      "make": "Hyundai",
+      "model": "I20"
+    },
+    "19": {
+      "id": "9ce885dfb75e",
+      "make": "Daewoo",
+      "model": "Lanos II"
+    },
+    "20": {
+      "id": "12c092440cf9",
+      "make": "Citroen",
+      "model": "C5 Aircross"
+    },
+    "21": {
+      "id": "e8046fb82330",
+      "make": "Skoda",
+      "model": "Fantasia"
+    }
+  },
+  "engineCapacity": {
+    "0": {
+      "id": "b86e476c528f",
+      "make": "xiaomi",
+      "model": "SU7"
+    },
+    "1": {
+      "id": "22efcff6b25c",
+      "make": "Suzuki",
+      "model": "Maruti"
+    },
+    "2": {
+      "id": "226930806b80",
+      "make": "Ford",
+      "model": "Ecosport"
+    },
+    "3": {
+      "id": "91c1b1ba2f78",
+      "make": "Hyundai",
+      "model": "I10"
+    },
+    "4": {
+      "id": "978b82ee07bb",
+      "make": "Fiat",
+      "model": "128 nova"
+    },
+    "5": {
+      "id": "cf4b170d8912",
+      "make": "Toyota",
+      "model": "Yaris"
+    },
+    "6": {
+      "id": "3f3edb186e4f",
+      "make": "Jeep",
+      "model": "Renegade"
+    },
+    "7": {
+      "id": "491e855b9db7",
+      "make": "Chevrolet",
+      "model": "Captiva"
+    },
+    "8": {
+      "id": "4c70343a82dc",
+      "make": "Mercedes",
+      "model": "C180"
+    },
+    "10": {
+      "id": "cb2db91240f1",
+      "make": "Mercedes",
+      "model": "C200"
+    },
+    "11": {
+      "id": "b0a03ea3313e",
+      "make": "Mercedes",
+      "model": "E200"
+    },
+    "12": {
+      "id": "011998fb8ff2",
+      "make": "BMW",
+      "model": "520i"
+    },
+    "13": {
+      "id": "a28d16cd81a1",
+      "make": "BYD",
+      "model": "L3"
+    },
+    "14": {
+      "id": "827a96f2c8b9",
+      "make": "Hyundai",
+      "model": "Sonata"
+    },
+    "15": {
+      "id": "0a82589bf4b4",
+      "make": "BMW",
+      "model": "523i"
+    },
+    "16": {
+      "id": "3df89a4ce97b",
+      "make": "Toyota",
+      "model": "Land cruiser"
+    },
+    "17": {
+      "id": "288d3158bf8c",
+      "make": "Land Rover",
+      "model": "Discovery"
+    },
+    "18": {
+      "id": "c3df68f0eba0",
+      "make": "Audi",
+      "model": "A3"
+    },
+    "19": {
+      "id": "41a754aa782d",
+      "make": "Audi",
+      "model": "RS Q8"
+    },
+    "20": {
+      "id": "98036454cf1b",
+      "make": "Mercedes",
+      "model": "E320"
+    },
+    "21": {
+      "id": "2f5deb624ecc",
+      "make": "Hyundai",
+      "model": "Santa Fe"
+    },
+    "22": {
+      "id": "e87f933378fc",
+      "make": "Mercedes",
+      "model": "S350"
+    },
+    "23": {
+      "id": "2b54c5e373e6",
+      "make": "Mitsubishi",
+      "model": "Pajero"
+    },
+    "24": {
+      "id": "9be8a4658647",
+      "make": "Jeep",
+      "model": "Grand Cherokee"
+    },
+    "25": {
+      "id": "2608b80f28ae",
+      "make": "Jeep",
+      "model": "Cherokee"
+    },
+    "26": {
+      "id": "b2a4f7897355",
+      "make": "Hyundai",
+      "model": "Palisade"
+    },
+    "27": {
+      "id": "ca21fc8f8d43",
+      "make": "Mercedes",
+      "model": "G 63"
+    },
+    "28": {
+      "id": "804f72e8dbfa",
+      "make": "Toyota",
+      "model": "Fortuner"
+    },
+    "29": {
+      "id": "cabea847a4d7",
+      "make": "Toyota",
+      "model": "Land cruiser"
+    },
+    "30": {
+      "id": "4a51ab632b02",
+      "make": "Land Rover",
+      "model": "Range Rover"
+    },
+    "31": {
+      "id": "003ce3af727d",
+      "make": "Cadillac",
+      "model": "Escalade"
+    },
+    "32": {
+      "id": "28bbdd785573",
+      "make": "Toyota",
+      "model": "Land cruiser"
+    },
+    "33": {
+      "id": "6536e99b352c",
+      "make": "Jeep",
+      "model": "Grand Cherokee"
+    },
+    "34": {
+      "id": "2c507567906c",
+      "make": "Porsche",
+      "model": "Cayenne S"
+    },
+    "35": {
+      "id": "9d60670eb2ad",
+      "make": "Range Rover",
+      "model": "VOGUE"
+    },
+    "36": {
+      "id": "7aadaa52e979",
+      "make": "Ford",
+      "model": "Mustang"
+    },
+    "37": {
+      "id": "add3643ba2ec",
+      "make": "Mercedes",
+      "model": "S500"
+    },
+    "38": {
+      "id": "4abaf3bddba3",
+      "make": "Infiniti",
+      "model": "QX70"
+    },
+    "39": {
+      "id": "140716995880",
+      "make": "Jeep",
+      "model": "Grand Cherokee"
+    },
+    "40": {
+      "id": "5a7fb33e3dcf",
+      "make": "Toyota",
+      "model": "Prado"
+    },
+    "41": {
+      "id": "027cd279758f",
+      "make": "Cadillac",
+      "model": "Escalade"
+    },
+    "43": {
+      "id": "01d39b891d7c",
+      "make": "Chevrolet",
+      "model": "Silverado"
+    },
+    "44": {
+      "id": "9638cdd31b33",
+      "make": "Volkswagen",
+      "model": "ID.6 Crozz"
+    },
+    "null": {
+      "id": "0c7cd678e7fa",
+      "make": "Mercedes",
+      "model": "EQS 450+"
+    }
+  },
+  "governorateId": {
+    "1": {
+      "id": "4c70343a82dc",
+      "make": "Mercedes",
+      "model": "C180"
+    },
+    "2": {
+      "id": "487c95ddddee",
+      "make": "Peugeot",
+      "model": "207"
+    },
+    "3": {
+      "id": "51626d2358c9",
+      "make": "Hyundai",
+      "model": "Creta"
+    },
+    "4": {
+      "id": "2b1d73651a5f",
+      "make": "Hyundai",
+      "model": "Tucson"
+    },
+    "5": {
+      "id": "0a82589bf4b4",
+      "make": "BMW",
+      "model": "523i"
+    },
+    "6": {
+      "id": "1365e321a5e9",
+      "make": "Renault",
+      "model": "Clio"
+    },
+    "7": {
+      "id": "31d32ca65bc0",
+      "make": "Hyundai",
+      "model": "I30"
+    },
+    "8": {
+      "id": "69617fcfcb6b",
+      "make": "Hyundai",
+      "model": "Elantra AD"
+    },
+    "9": {
+      "id": "a53fa6b450b6",
+      "make": "Mitsubishi",
+      "model": "Lancer Shark"
+    },
+    "10": {
+      "id": "9aee0a0e876d",
+      "make": "Renault",
+      "model": "Sandero Stepway"
+    },
+    "11": {
+      "id": "a697b2010490",
+      "make": "Volvo",
+      "model": "XC 60"
+    },
+    "12": {
+      "id": "ca1aca29d574",
+      "make": "Kia",
+      "model": "Sorento"
+    },
+    "13": {
+      "id": "af14a6c64922",
+      "make": "Mitsubishi",
+      "model": "Lancer"
+    },
+    "14": {
+      "id": "9ce885dfb75e",
+      "make": "Daewoo",
+      "model": "Lanos II"
+    },
+    "15": {
+      "id": "fcd293c8e45d",
+      "make": "Soueast",
+      "model": "S 07"
+    },
+    "17": {
+      "id": "23294d6acc28",
+      "make": "Daewoo",
+      "model": "Lanos II"
+    },
+    "189": {
+      "id": "40bc906ebebf",
+      "make": "Mercedes",
+      "model": "E300"
+    },
+    "316": {
+      "id": "6b4153634372",
+      "make": "Renault",
+      "model": "Clio"
+    },
+    "318": {
+      "id": "4dde060f5d84",
+      "make": "Hyundai",
+      "model": "Tucson"
+    },
+    "319": {
+      "id": "27a6f76961fa",
+      "make": "Chevrolet",
+      "model": "TFR"
+    },
+    "320": {
+      "id": "2ab384375f57",
+      "make": "Chery",
+      "model": "Tiggo 7"
+    },
+    "321": {
+      "id": "656fb55318a8",
+      "make": "Hyundai",
+      "model": "Verna"
+    },
+    "322": {
+      "id": "ef0a420d1516",
+      "make": "Speranza",
+      "model": "Tiggo"
+    },
+    "323": {
+      "id": "ec7129b23d5a",
+      "make": "Fiat",
+      "model": "Tipo"
+    },
+    "324": {
+      "id": "0d67fabb87d1",
+      "make": "Kia",
+      "model": "Sportage"
+    },
+    "325": {
+      "id": "13f8bac3b538",
+      "make": "Mercedes",
+      "model": "C240"
+    },
+    "326": {
+      "id": "fb5556378b57",
+      "make": "BMW",
+      "model": "X3"
+    },
+    "327": {
+      "id": "b0a03ea3313e",
+      "make": "Mercedes",
+      "model": "E200"
+    },
+    "704": {
+      "id": "8f770f720eb1",
+      "make": "BMW",
+      "model": "320i"
+    },
+    "707": {
+      "id": "86b2da4ac159",
+      "make": "Daewoo",
+      "model": "Lanos"
+    },
+    "710": {
+      "id": "6dbbd882ee48",
+      "make": "BMW",
+      "model": "X6"
+    },
+    "767": {
+      "id": "7b2774ad8bb0",
+      "make": "Hyundai",
+      "model": "Accent"
+    },
+    "795": {
+      "id": "c9f6202fab72",
+      "make": "Ford",
+      "model": "Focus"
+    },
+    "832": {
+      "id": "2cbfae8a1371",
+      "make": "Mercedes",
+      "model": "C200"
+    }
+  }
+}
